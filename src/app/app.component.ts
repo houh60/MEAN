@@ -7,11 +7,6 @@ import { Post } from './posts/post.model';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    storedPosts: Post[] = [];
 
     ngOnInit(): void {}
-
-    onPostCreated(post: any) {
-        this.storedPosts.push(post);
-    }
 }

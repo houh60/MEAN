@@ -1,1 +1,18 @@
-<mat-toolbar color="primary">My Message</mat-toolbar>
+<mat-toolbar color="primary">
+    <span><button mat-button routerLink="/">My Message</button></span>
+    <span class="spacer"></span>
+    <button mat-button routerLink="/list" routerLinkActive="mat-accent">
+        Post List
+    </button>
+    <button mat-button routerLink="/create" routerLinkActive="mat-accent">
+        Create Post
+    </button>
+    <!-- <ul>
+        <li>
+            <a mat-button routerLink="/list" routerLinkActive="mat-accent">Post List</a>
+        </li>
+        <li>
+            <a mat-button routerLink="/create" routerLinkActive="mat-accent">Create Post</a>
+        </li>
+    </ul> -->
+</mat-toolbar>

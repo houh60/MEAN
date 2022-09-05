@@ -10,22 +10,23 @@ import { PostService } from '../post.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
-    // posts = [
-    //     { title: 'First Post', content: 'This is the 1st post\' content.' },
-    //     { title: 'Second Post', content: 'This is the 2nd post\' content.' },
-    //     { title: 'Third Post', content: 'This is the 3rd post\' content.' },
-    // ];
     posts: Post[] = [];
     subscription = new Subscription();
+    isLoading = false;
+
     constructor(
         private postService: PostService
     ) {}
 
     ngOnInit(): void {
         this.postService.getPosts();
+        this.isLoading = true;
         this.subscription = this.postService.getPostUpdateListener()
             .subscribe({
-                next: posts => this.posts = posts,
+                next: posts => {
+                    this.posts = posts;
+                    this.isLoading = false;
+                },
                 error: error => console.log('error: ', error)
             });
     }

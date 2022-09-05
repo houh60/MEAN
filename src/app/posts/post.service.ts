@@ -1,5 +1,6 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 import { map, Subject } from "rxjs";
 import { Post } from "./post.model";
 
@@ -10,7 +11,8 @@ export class PostService {
     url = 'http://localhost:3000/api/posts/';
 
     constructor(
-        private http: HttpClient
+        private http: HttpClient,
+        private router: Router
     ) {}
 
     getPosts() {
@@ -45,6 +47,7 @@ export class PostService {
                 post.id = responseData.postId;
                 this.posts.push(post);
                 this.postAdded.next([...this.posts]);
+                this.router.navigate(['/']);
             });
     }
 
@@ -56,6 +59,7 @@ export class PostService {
             updatedPosts[oldPostIndex] = post;
             this.posts = updatedPosts;
             this.postAdded.next([...this.posts]);
+            this.router.navigate(['/']);
         });
     }
 

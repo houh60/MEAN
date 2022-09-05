@@ -7,7 +7,7 @@ import { Post } from "./post.model";
 export class PostService {
     private posts: Post[] = [];
     private postAdded = new Subject<Post[]>();
-    url = 'http://localhost:3000/api/posts';
+    url = 'http://localhost:3000/api/posts/';
 
     constructor(
         private http: HttpClient
@@ -35,7 +35,7 @@ export class PostService {
     }
 
     getPost(id: string) {
-        return { ...this.posts.find(p => p.id == id) };
+        return this.http.get<{ _id: string, title: string, content: string }>(this.url + id);
     }
 
     addPost(title: string, content: string) {
@@ -48,8 +48,19 @@ export class PostService {
             });
     }
 
+    updatePost(id: string, title: string, content: string) {
+        const post: Post = { id: id, title: title, content: content };
+        this.http.put(this.url + id, post).subscribe(response => {
+            const updatedPosts = [...this.posts];
+            const oldPostIndex = updatedPosts.findIndex(p => p.id == post.id);
+            updatedPosts[oldPostIndex] = post;
+            this.posts = updatedPosts;
+            this.postAdded.next([...this.posts]);
+        });
+    }
+
     deletePost(postId: string) {
-        this.http.delete(this.url + '/' + postId).subscribe(() => {
+        this.http.delete(this.url + postId).subscribe(() => {
             console.log('Deleted');
             const updatedPosts = this.posts.filter(post => post.id !== postId);
             this.posts = updatedPosts;

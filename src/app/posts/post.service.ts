@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { map, Subject } from "rxjs";
@@ -22,7 +22,8 @@ export class PostService {
                     return {
                         title: post.title,
                         content: post.content,
-                        id: post._id
+                        id: post._id,
+                        imagePath: post.imagePath
                     };
                 });
             }))
@@ -37,25 +38,49 @@ export class PostService {
     }
 
     getPost(id: string) {
-        return this.http.get<{ _id: string, title: string, content: string }>(this.url + id);
+        return this.http.get<{ _id: string, title: string, content: string, imagePath: string }>(this.url + id);
     }
 
-    addPost(title: string, content: string) {
-        const post: Post = { id: 'undefined', title: title, content: content };
-        this.http.post<{ message: string, postId: string }>(this.url, post)
+    addPost(title: string, content: string, image: File) {
+        const postData = new FormData();
+        postData.append('title', title);
+        postData.append('content', content);
+        postData.append('image', image, title);
+        this.http.post<{ message: string, post: Post }>(this.url, postData)
             .subscribe(responseData => {
-                post.id = responseData.postId;
+                const post: Post = responseData.post;
                 this.posts.push(post);
                 this.postAdded.next([...this.posts]);
                 this.router.navigate(['/']);
             });
     }
 
-    updatePost(id: string, title: string, content: string) {
-        const post: Post = { id: id, title: title, content: content };
-        this.http.put(this.url + id, post).subscribe(response => {
+    updatePost(id: string, title: string, content: string, image: File | string) {
+        let postData;
+        if(typeof (image) === 'object') {
+            postData = new FormData();
+            postData.append('id', id);
+            postData.append('title', title);
+            postData.append('content', content);
+            postData.append('image', image, title);
+        } else {
+            postData = {
+                id: id,
+                title: title,
+                content: content,
+                imagePath: image
+            }
+        }
+        const headers = this.setHeaders(id);
+        this.http.put(this.url + id, postData, { headers }).subscribe(response => {
             const updatedPosts = [...this.posts];
-            const oldPostIndex = updatedPosts.findIndex(p => p.id == post.id);
+            const oldPostIndex = updatedPosts.findIndex(p => p.id == id);
+            const post = {
+                id: id,
+                title: title,
+                content: content,
+                imagePath: ''
+            }
             updatedPosts[oldPostIndex] = post;
             this.posts = updatedPosts;
             this.postAdded.next([...this.posts]);
@@ -64,11 +89,22 @@ export class PostService {
     }
 
     deletePost(postId: string) {
-        this.http.delete(this.url + postId).subscribe(() => {
-            console.log('Deleted');
+        const headers = this.setHeaders(postId);
+        this.http.delete(this.url + postId, { headers }).subscribe(() => {
             const updatedPosts = this.posts.filter(post => post.id !== postId);
             this.posts = updatedPosts;
             this.postAdded.next([...this.posts]);
         });
+    }
+
+    setHeaders(id: string) {
+        let postToDelete = this.posts.find(post => post.id == id);
+        let path;
+        if(postToDelete) {
+            path = postToDelete.imagePath;
+            let start = path.indexOf('images');
+            path = 'backend/' + path.substring(start);
+        }
+        return new HttpHeaders().set('path', path as string);
     }
 }

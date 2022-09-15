@@ -11,3 +11,8 @@ a {
 .spacer {
     flex: auto;
 }
+
+button:hover {
+    background-color: aqua;
+    color: black;
+}

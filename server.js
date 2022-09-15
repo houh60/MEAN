@@ -1,6 +1,6 @@
-const { debug } = require('console');
 const http = require('http');
 const app = require('./backend/app')
+const { debug } = require('console');
 
 const normalizePort = val => {
     var port = parseInt(val, 10);
@@ -22,11 +22,9 @@ const onError = error => {
         case 'EACCES':
             console.log(bind + ' requires elevated privileges');
             process.exit(1);
-            break;
         case 'EADDRINUSE':
             console.log(bind + ' is already in use');
             process.exit(1);
-            break;
         default:
             throw error;
     }
@@ -34,7 +32,7 @@ const onError = error => {
 
 const onListening = () => {
     const addr = server.address();
-    const bind = typeof addr === 'string' ? 'pipe' + addr : 'port' + port;
+    const bind = typeof addr === 'string' ? 'pipe' + addr : 'port ' + port;
     debug('Listening on ' + bind);
 };
 

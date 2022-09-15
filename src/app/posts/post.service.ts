@@ -73,7 +73,7 @@ export class PostService {
             }
         }
         const headers = this.setHeaders(id);
-        this.http.put(this.url + id, postData, { headers }).subscribe(response => {
+        this.http.put(this.url + id, postData, { headers }).subscribe(() => {
             const updatedPosts = [...this.posts];
             const oldPostIndex = updatedPosts.findIndex(p => p.id == id);
             const post = {

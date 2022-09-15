@@ -57,7 +57,7 @@ router.put('/:id', multer({ storage: storage }).single('image'), (req, res, next
         content: req.body.content,
         imagePath: imagePath
     });
-    Post.updateOne({ _id: req.params.id }, post).then(result => {
+    Post.updateOne({ _id: req.params.id }, post).then(() => {
         deletePicture(path);
         res.status(200).json({ message: 'Update was successful!' });
     });
@@ -74,7 +74,7 @@ router.get('', (req, res, next) => {
     postQuery.then(documents => {
         fetchedPosts = documents;
         return Post.count();
-    }).then(count => {
+    }).then(() => {
         res.status(200).json({
             message: 'Posts fetched successfully!',
             posts: fetchedPosts
@@ -96,7 +96,7 @@ router.get('/:id', (req, res, next) => {
 
 router.delete('/:id', (req, res, next) => {
     let path = req.headers.path;
-    Post.deleteOne({ _id: req.params.id }).then(result => {
+    Post.deleteOne({ _id: req.params.id }).then(() => {
         deletePicture(path);
         res.status(200).json({ message: 'Post deleted!' });
     });

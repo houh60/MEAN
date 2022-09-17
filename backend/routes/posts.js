@@ -58,7 +58,9 @@ router.put('/:id', multer({ storage: storage }).single('image'), (req, res, next
         imagePath: imagePath
     });
     Post.updateOne({ _id: req.params.id }, post).then(() => {
-        deletePicture(path);
+        if(req.file) {
+            deletePicture(path);
+        }
         res.status(200).json({ message: 'Update was successful!' });
     });
 });

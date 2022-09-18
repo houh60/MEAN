@@ -76,10 +76,11 @@ router.get('', (req, res, next) => {
     postQuery.then(documents => {
         fetchedPosts = documents;
         return Post.count();
-    }).then(() => {
+    }).then(count => {
         res.status(200).json({
             message: 'Posts fetched successfully!',
-            posts: fetchedPosts
+            posts: fetchedPosts,
+            maxPosts: count
         });
     }).catch(error => {
         console.log('error: ', error);

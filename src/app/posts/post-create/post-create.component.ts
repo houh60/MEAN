@@ -45,7 +45,7 @@ export class PostCreateComponent implements OnInit {
                         imagePath: postData.imagePath
                     };
                     this.isLoading = false;
-                    this.form?.setValue({
+                    this.form.setValue({
                         title: this.post.title,
                         content: this.post.content,
                         image: this.post.imagePath
@@ -58,9 +58,10 @@ export class PostCreateComponent implements OnInit {
         });
     }
 
-    onAddPost() {
+    onSavePost() {
         if(this.form.invalid)
             return;
+
         this.isLoading = true;
         if(this.mode === 'create') {
             this.postService.addPost(

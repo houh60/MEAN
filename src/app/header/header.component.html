@@ -4,14 +4,17 @@
     <button mat-button routerLink="/list" routerLinkActive="mat-accent">
         Post List
     </button>
-    <button mat-button routerLink="/create" routerLinkActive="mat-accent">
+    <button *ngIf="userIsAuthenticated" mat-button routerLink="/create" routerLinkActive="mat-accent">
         Create Post
     </button>
-    <button mat-button routerLink="/login" routerLinkActive="mat-accent">
+    <button *ngIf="!userIsAuthenticated" mat-button routerLink="/login" routerLinkActive="mat-accent">
         Login
     </button>
-    <button mat-button routerLink="/signup" routerLinkActive="mat-accent">
+    <button *ngIf="!userIsAuthenticated" mat-button routerLink="/signup" routerLinkActive="mat-accent">
         Sign Up
+    </button>
+    <button *ngIf="userIsAuthenticated" mat-button routerLinkActive="mat-accent" (click)="onLogout()">
+        Logout
     </button>
     <!-- <ul>
         <li>

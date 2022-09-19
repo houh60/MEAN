@@ -43,6 +43,10 @@ router.post('', checkAuth, multer({ storage: storage }).single('image'), (req, r
                 id: createdPost._id
             }
         });
+    }).catch(error => {
+        res.status(500).json({
+            error: error
+        });
     });
 });
 
@@ -67,8 +71,12 @@ router.put('/:id', checkAuth, multer({ storage: storage }).single('image'), (req
             }
             res.status(200).json({ message: 'Update was successful!' });
         } else {
-            res.status(401).json({ message: 'Not Authorized!' });
+            res.status(401).json({ message: 'You are not authorized!' });
         }
+    }).catch(error => {
+        res.status(500).json({
+            error: error
+        });
     });
 });
 
@@ -90,7 +98,9 @@ router.get('', (req, res, next) => {
             maxPosts: count
         });
     }).catch(error => {
-        console.log('error: ', error);
+        res.status(500).json({
+            error: error
+        });
     });
 });
 
@@ -101,6 +111,10 @@ router.get('/:id', (req, res, next) => {
         } else {
             res.status(404).json({ message: 'Post not found!' });
         }
+    }).catch(error => {
+        res.status(500).json({
+            error: error
+        });
     });
 });
 
@@ -111,8 +125,12 @@ router.delete('/:id', checkAuth, (req, res, next) => {
             deletePicture(path);
             res.status(200).json({ message: 'Post deleted!' });
         } else {
-            res.status(401).json({ message: 'Not Authorized!' });
+            res.status(401).json({ message: 'You are not authorized!' });
         }
+    }).catch(error => {
+        res.status(500).json({
+            error: error
+        });
     });
 });
 
@@ -121,6 +139,10 @@ function deletePicture(path) {
         if(err) {
             console.log('err: ', err);
         }
+    }).catch(error => {
+        res.status(500).json({
+            error: error
+        });
     });
 }
 

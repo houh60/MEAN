@@ -4,11 +4,13 @@ import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { AuthData } from "./auth-data.model";
 
+import { environment } from "src/environments/environment";
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-    signUpUrl = 'http://localhost:3000/api/users/signup';
-    loginUrl = 'http://localhost:3000/api/users/login';
+    signUpUrl = environment.apiUrl + 'users/signup';
+    loginUrl = environment.apiUrl + 'users/login';
     private token: string = '';
     private authStatusListener = new Subject<boolean>();
     isAuthenticated = false;

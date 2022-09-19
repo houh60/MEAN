@@ -1,14 +1,15 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { map, Subject } from "rxjs";
 import { Post } from "./post.model";
+import { environment } from "src/environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
     private posts: Post[] = [];
     private postAdded = new Subject<{ posts: Post[], postCount: number }>();
-    url = 'http://localhost:3000/api/posts/';
+    url = environment.apiUrl + 'posts/';
 
     constructor(
         private http: HttpClient,

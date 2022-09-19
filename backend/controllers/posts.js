@@ -94,9 +94,7 @@ exports.getPost = (req, res, next) => {
 
 exports.deletePost = (req, res, next) => {
     let path = req.headers.path;
-    console.log('path: ', path);
     Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(result => {
-        console.log('result: ', result);
         if(result.deletedCount > 0) {
             deletePicture(path);
             res.status(200).json({ message: 'Post deleted!' });

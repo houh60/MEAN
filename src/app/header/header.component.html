@@ -1,27 +1,19 @@
 <mat-toolbar color="primary">
-    <span><button mat-button routerLink="/">My Message</button></span>
-    <span class="spacer"></span>
-    <button mat-button routerLink="/list" routerLinkActive="mat-accent">
-        Post List
-    </button>
-    <button *ngIf="userIsAuthenticated" mat-button routerLink="/create" routerLinkActive="mat-accent">
-        Create Post
-    </button>
-    <button *ngIf="!userIsAuthenticated" mat-button routerLink="/auth/login" routerLinkActive="mat-accent">
-        Login
-    </button>
-    <button *ngIf="!userIsAuthenticated" mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">
-        Sign Up
-    </button>
-    <button *ngIf="userIsAuthenticated" mat-button routerLinkActive="mat-accent" (click)="onLogout()">
-        Logout
-    </button>
-    <!-- <ul>
-        <li>
-            <a mat-button routerLink="/list" routerLinkActive="mat-accent">Post List</a>
-        </li>
-        <li>
-            <a mat-button routerLink="/create" routerLinkActive="mat-accent">Create Post</a>
-        </li>
-    </ul> -->
+  <span><button mat-button routerLink="/">My Message</button></span>
+  <span class="spacer"></span>
+  <button mat-button routerLink="/list" routerLinkActive="mat-accent">
+    Post List
+  </button>
+  <button *ngIf="userIsAuthenticated" mat-button routerLink="/create" routerLinkActive="mat-accent">
+    Create Post
+  </button>
+  <button *ngIf="!userIsAuthenticated" mat-button routerLink="/auth/login" routerLinkActive="mat-accent">
+    Login
+  </button>
+  <button *ngIf="!userIsAuthenticated" mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">
+    Sign Up
+  </button>
+  <button *ngIf="userIsAuthenticated" mat-button routerLinkActive="mat-accent" (click)="onLogout()">
+    Logout
+  </button>
 </mat-toolbar>
